@@ -1,0 +1,60 @@
+# usage : 
+# make -f makefile
+# make -f makefile test
+# make -f makefile clean
+
+test_file_01 = data/test_01.json
+test_file_02 = data/test_02.json
+test_file_03 = data/test_03.json
+
+dir_inc_jansson = /usr/include
+dir_lib_jansson = /usr/lib/
+dir_inc_hdf5 = /usr/include/hdf5/serial
+dir_lib_hdf5 = /usr/lib/x86_64-linux-gnu/hdf5/serial
+
+dir_bin = .
+
+INC = -I$(dir_inc_jansson) -I$(dir_inc_hdf5)
+LIB = -L$(dir_lib_jansson) -ljansson -lz -L$(dir_lib_hdf5) -lhdf5
+
+SRC1 = star_json.cc
+SRC_MAIN1 = star_json_main.cc
+
+OBJ1 = star_json.o
+OBJ_MAIN1 = star_json_main.o
+
+EXE1 = $(dir_bin)/star_json
+
+OBJs = $(OBJ1) $(OBJ_MAIN1)
+EXEs = $(EXE1) 
+
+CXX = g++
+CXX_FLAG = -g -Wall -std=c++0x
+LINK_FLAG = -lstdc++ 
+
+all:  $(EXEs) 
+
+test : run1 run2 run3
+
+$(EXE1) : $(OBJ1) $(OBJ_MAIN1)
+	$(CXX) $(LINK_FLAG) -o $(EXE1) $(OBJ1) $(OBJ_MAIN1) $(LIB)
+
+$(OBJ1) : $(SRC1)
+	$(CXX) $(INC) $(CXX_FLAG) -c $(SRC1) -o $(OBJ1)
+
+$(OBJ_MAIN1) : $(SRC_MAIN1)
+	$(CXX) $(INC) $(CXX_FLAG) -c $(SRC_MAIN1) -o $(OBJ_MAIN1)
+	
+clean:
+	rm -f $(OBJs) $(EXEs)
+
+run1: $(EXE1)
+	$(EXE1) $(test_file_01)
+
+run2: $(EXE1)
+	$(EXE1) $(test_file_02)
+
+run3: $(EXE1)
+	$(EXE1) $(test_file_03)
+
+

@@ -1,0 +1,9 @@
+cmake .. ^
+-DJANSSON_INCLUDE:PATH=E:/star_icvs/external/jansson-2.9/build/include ^
+-DJANSSON_LIBRARY:FILE=E:/star_icvs/external/jansson-2.9/build/lib/Debug/jansson_d.lib ^
+-DHDF5_INCLUDE:PATH=J:/grafic_project/hdf5/hdf5.1.8.5.patch1/src ^
+-DHDF5_LIBRARY:FILE=J:/grafic_project/Debug/hdf5.1.8.5.patch1.lib ^
+-DHDF5_HL_LIBRARY:FILE=J:/grafic_project/Debug/hdf5_hl.1.8.5.patch1.lib ^
+-DZLIB_LIBRARY:FILE=J:/grafic_project/Debug/zlib.lib ^
+-DSZIP_LIBRARY:FILE=J:/grafic_project/Debug/szlib.lib ^
+-DCURL_LIBRARY:FILE=J:/grafic_project/Debug/libcurld.lib

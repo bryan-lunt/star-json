@@ -1,0 +1,9 @@
+{
+	"dset1": [{
+		"dset1": ["dataset", "STAR_INT32", 1, [2], [3, 4]]
+	}, {
+		"attr1": ["attribute", "STAR_STRING", 1, [3], "foo"]
+	}, {
+		"attr2": ["attribute", "STAR_STRING", 1, [3], "bar"]
+	}]
+}
