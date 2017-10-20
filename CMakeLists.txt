@@ -43,17 +43,14 @@ endif()
 #find_path()
 #find_library()
 #Notes:
-#1) list a static name first to avoid link errors in systems with multiple versions of the same libraries in PATH, used for libz.a
-#2) use option NO_SYSTEM_ENVIRONMENT_PATH
+#list a static name first to avoid link errors in systems with multiple versions of the same libraries in PATH, used for libz.a
 #//////////////////////////
 
-set(find_opt NO_SYSTEM_ENVIRONMENT_PATH)
-
-find_path(JANSSON_INCLUDE_FOUND jansson.h HINTS ${JANSSON_INCLUDE})
-if(NOT JANSSON_INCLUDE_FOUND)
+find_path(JANSSON_INCLUDE jansson.h)
+if(NOT JANSSON_INCLUDE)
   message(FATAL_ERROR "jansson.h header file not found")
 else()
-  message("-- Found jansson.h header file at: " ${JANSSON_INCLUDE_FOUND})
+  message("-- Found jansson.h header file at: " ${JANSSON_INCLUDE})
 endif()
 
 find_library(JANSSON_LIBRARY NAMES jansson)
@@ -67,21 +64,21 @@ endif()
 #HDF5
 #/////////////////////////////////////////////////////////////////////////////////////
 
-find_path(HDF5_INCLUDE_FOUND hdf5.h HINTS ${HDF5_INCLUDE})
-if(NOT HDF5_INCLUDE_FOUND)
+find_path(HDF5_INCLUDE hdf5.h)
+if(NOT HDF5_INCLUDE)
   message(FATAL_ERROR "hdf5.h header file not found")
 else()
-  message("-- Found hdf5.h header file at: " ${HDF5_INCLUDE_FOUND})
+  message("-- Found hdf5.h header file at: " ${HDF5_INCLUDE})
 endif()
 
-find_library(HDF5_LIBRARY NAMES hdf5 ${find_opt})
+find_library(HDF5_LIBRARY NAMES hdf5)
 if(NOT HDF5_LIBRARY)
   message(FATAL_ERROR "${color_red}hdf5 library not found${color_reset}")
 else()
   message("-- Found hdf5 library at: " ${HDF5_LIBRARY})
 endif()
 
-find_library(HDF5_HL_LIBRARY NAMES hdf5_hl ${find_opt})
+find_library(HDF5_HL_LIBRARY NAMES hdf5_hl)
 if(NOT HDF5_HL_LIBRARY)
   message(FATAL_ERROR "${color_red}hdf5 high level library not found${color_reset}")
 else()
@@ -117,7 +114,7 @@ endif()
 
 if (NEED_SZIP)
   message("-- Trying to find the SZIP library...")
-  find_library(SZIP_LIBRARY NAMES sz ${find_opt})
+  find_library(SZIP_LIBRARY NAMES sz)
   if(NOT SZIP_LIBRARY)
     message(FATAL_ERROR "${color_red}szip library not found${color_reset}")
   else()
@@ -127,7 +124,7 @@ endif()
 
 if (NEED_ZLIB)
   message("-- Trying to find the ZLIB library...")
-  find_library(ZLIB_LIBRARY NAMES libz.a z ${find_opt})
+  find_library(ZLIB_LIBRARY NAMES libz.a z)
   if(NOT ZLIB_LIBRARY)
     message(FATAL_ERROR "${color_red}zlib library not found${color_reset}")
   else()
@@ -190,7 +187,7 @@ endif()
 #include_directories
 #//////////////////////////
 
-include_directories(${JANSSON_INCLUDE_FOUND} ${HDF5_INCLUDE_FOUND})
+include_directories(${JANSSON_INCLUDE} ${HDF5_INCLUDE})
 
 
 set(star_SOURCES star_json.cc star_json.hh)
