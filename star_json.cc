@@ -1,5 +1,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//Center for Satellite Applications and Research (STAR), NOAA
+//Center for Satellite Applications and Research (STAR)
+//NOAA Center for Weather and Climate Prediction (NCWCP)
+//5830 University Research Court
+//College Park, MD 20740
 //Purpose: Parse a STAR JSON format file
 // see star_json.html for a description of the format
 // Dependencies: 
