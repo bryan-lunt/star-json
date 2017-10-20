@@ -136,17 +136,13 @@ if (NEED_ZLIB)
 endif()
 
 
-
 if (MSVC)
   add_definitions( "/D_CRT_SECURE_NO_WARNINGS /D_WINSOCK_DEPRECATED_NO_WARNINGS" )
-  if (STATIC_CRT)
-    message("-- Building with static runtime library")
-	set(CMAKE_CXX_FLAGS_DEBUG "/D_DEBUG /MTd /Zi /Ob0 /Od /RTC1")
-    set(CMAKE_CXX_FLAGS_MINSIZEREL     "/MT /O1 /Ob1 /D NDEBUG")
-    set(CMAKE_CXX_FLAGS_RELEASE        "/MT /O2 /Ob2 /D NDEBUG")
-    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MT /Zi /O2 /Ob1 /D NDEBUG")
-  endif()  
-  set(WINSOCK_LIBRARY ws2_32.lib)
+  message("-- Building with static runtime library")
+  set(CMAKE_CXX_FLAGS_DEBUG "/D_DEBUG /MTd /Zi /Ob0 /Od /RTC1")
+  set(CMAKE_CXX_FLAGS_MINSIZEREL     "/MT /O1 /Ob1 /D NDEBUG")
+  set(CMAKE_CXX_FLAGS_RELEASE        "/MT /O2 /Ob2 /D NDEBUG")
+  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MT /Zi /O2 /Ob1 /D NDEBUG")
 endif(MSVC)
 
 if (CMAKE_VERSION VERSION_LESS "3.1")
@@ -165,8 +161,39 @@ else ()
   set (CMAKE_CXX_STANDARD 11)
 endif()
 
+#//////////////////////////
+#link with libraries
+#LIB_DEP contains a cascade definition of all the libraries needed to link
+#//////////////////////////
+
+set(LIB_DEP ${LIB_DEP})
+set(LIB_DEP ${LIB_DEP} ${JANSSON_LIBRARY})
+set(LIB_DEP ${LIB_DEP} ${HDF5_HL_LIBRARY})
+set(LIB_DEP ${LIB_DEP} ${HDF5_LIBRARY})
+set(LIB_DEP ${LIB_DEP} ${CURL_LIBRARY})
+if (NEED_ZLIB)
+  set(LIB_DEP ${LIB_DEP} ${ZLIB_LIBRARY})
+endif()
+if (NEED_SZIP)
+  set(LIB_DEP ${LIB_DEP} ${SZIP_LIBRARY})
+endif()
+
+#//////////////////////////
+# system specific libraries needed to link 
+#//////////////////////////
+
+if(MSVC)
+  set(LIB_DEP ${LIB_DEP} ws2_32.lib winmm.lib wldap32.lib)
+endif()
+
+#//////////////////////////
+#include_directories
+#//////////////////////////
+
 include_directories(${JANSSON_INCLUDE_FOUND} ${HDF5_INCLUDE_FOUND})
-set(SOURCES star_json.cc star_json.hh)
-add_executable(star_json star_json_main.cc ${SOURCES})
-target_link_libraries (star_json ${JANSSON_LIBRARY} ${HDF5_LIBRARY} ${ZLIB_LIBRARY} ${SZIP_LIBRARY} ${WINSOCK_LIBRARY})
+
+
+set(star_SOURCES star_json.cc star_json.hh)
+add_executable(star_json star_json_main.cc ${star_SOURCES})
+target_link_libraries (star_json ${LIB_DEP})
 
